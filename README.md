@@ -1,5 +1,25 @@
 # Desafio programação - para vaga desenvolvedor
 
+Esse projeto é a implementação do desafio proposto abaixo. Para inicia-lo abra o terminal e navegue até a raiz do projeto e execute os seguintes comandos:
+```
+cp ./backend/.env.example ./backend/.env
+docker compose up
+```
+O sistema estará disponivel em http://localhost:8080, para acessar a UI Swagger da API acesse http://localhost:3000/api-docs
+
+# Rodando os testes
+
+Para rodar os testes do frontend navegue até a pasta frontend em seu terminal e execute o comando:
+```
+npm run test
+```
+Para rodar os testes do backend navegue até a pasta backend em seu terminal e execute o comando:
+```
+npm run test
+```
+
+# Desafio programação - Descrição
+
 Por favor leiam este documento do começo ao fim, com muita atenção.
 O intuito deste teste é avaliar seus conhecimentos técnicos em programação.
 O teste consiste em parsear [este arquivo de texto(CNAB)](https://github.com/ByCodersTec/desafio-ruby-on-rails/blob/master/CNAB.txt) e salvar suas informações(transações financeiras) em uma base de dados a critério do candidato.
