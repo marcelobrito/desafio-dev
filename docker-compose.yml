@@ -1,0 +1,37 @@
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: "database"
+      POSTGRES_USER: "user"
+      POSTGRES_PASSWORD: "password"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - default
+  frontend:
+    build: 
+      context: .
+      dockerfile: ./docker/react/Dockerfile
+    ports:
+      - 8080:80
+    networks:
+      - default
+  api:
+    build: 
+      context: .
+      dockerfile: ./docker/node/Dockerfile
+    env_file: ./backend/.env
+    #command: bash -c "npm ci && npm run build && npm run dev"
+    command: sh -c "sleep 3 && npx prisma migrate deploy && pm2-runtime start server.js"
+    volumes:
+      - ./:/usr/src/api/
+    ports:
+      - 3000:3000
+    networks:
+      - default
+networks:
+  default:
+    driver: bridge
