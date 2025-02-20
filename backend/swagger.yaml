@@ -1,0 +1,93 @@
+swagger: "2.0"
+info:
+  description: "Documentação para API de CNAB."
+  version: "1.0.0"
+  title: "CNAB API"
+tags:
+  - name: "CNAB"
+    description: "Operações relacionadas a cnab"
+schemes:
+  - "http"
+paths:
+  /cnab:
+    get:
+      summary: Retorna o relatório de transações processadas
+      operationId: getCnabReport
+      responses:
+        '200':
+          description: Lista de transações agrupadas por loja
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StoreReport'
+        '500':
+          description: Erro interno no servidor
+    post:
+      summary: Faz o upload e processa um arquivo CNAB
+      operationId: uploadCnab
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: file
+          in: formData
+          description: Arquivo CNAB para upload
+          required: true
+          type: file
+      responses:
+        '200':
+          description: Arquivo enviado e processado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '422':
+          description: Erro na validação do arquivo enviado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+    StoreReport:
+      type: object
+      properties:
+        store_name:
+          type: string
+        total:
+          type: number
+          format: float
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transaction'
+    Transaction:
+      type: object
+      properties:
+        type:
+          type: string
+        nature:
+          type: string
+        amount:
+          type: number
+          format: float
+        date:
+          type: string
+          format: date-time
+        cpf:
+          type: string
+        card:
+          type: string
+        store_owner:
+          type: string
+        store_name:
+          type: string
